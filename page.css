@@ -1,4 +1,3 @@
-/* Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -14,18 +13,17 @@ body {
     align-items: center;
 }
 
-/* Heading */
 h1 {
     font-size: 40px;
     color: #1a237e;
     margin-bottom: 7px;
 }
-h2{
-    
+
+h2 {
     color: #1a237e;
     margin-bottom: 30px;
 }
-/* Container for form + output */
+
 #container {
     display: flex;
     justify-content: space-between;
@@ -35,7 +33,6 @@ h2{
     flex-wrap: wrap;
 }
 
-/* Form Card */
 #fieldset {
     background-color: #ffffff;
     width: 35%;
@@ -45,13 +42,11 @@ h2{
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Labels */
 #form {
     font-size: 16px;
     color: #333;
 }
 
-/* Input Fields */
 input[type="number"],
 input[type="text"] {
     width: 100%;
@@ -71,31 +66,40 @@ input[type="text"]:focus {
     outline: none;
 }
 
-/* Checkbox styling */
 input[type="checkbox"] {
     margin-left: 10px;
     transform: scale(1.2);
 }
 
-/* Generate Button */
-#button {
+#button, #downloadBtn {
     width: 100%;
     height: 40px;
     font-size: 16px;
-    background-color: #1a237e;
-    color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    margin-top: 10px;
     transition: background-color 0.3s ease;
-    margin-top: 20px;
+}
+
+#button {
+    background-color: #1a237e;
+    color: white;
 }
 
 #button:hover {
     background-color: #0d1540;
 }
 
-/* Output Panel */
+#downloadBtn {
+    background-color: #4caf50;
+    color: white;
+}
+
+#downloadBtn:hover {
+    background-color: #388e3c;
+}
+
 #output {
     width: 60%;
     min-height: 300px;
@@ -106,7 +110,6 @@ input[type="checkbox"] {
     overflow-x: auto;
 }
 
-/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -127,7 +130,6 @@ td small {
     color: #666;
 }
 
-/* Responsive Design */
 @media screen and (max-width: 900px) {
     #container {
         flex-direction: column;
@@ -138,22 +140,7 @@ td small {
         width: 90%;
     }
 }
-#downloadBtn {
-    margin-top: 10px;
-    width: 100%;
-    height: 40px;
-    font-size: 16px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-#downloadBtn:hover {
-    background-color: #388e3c;
-}
 .stream-count-input {
     display: block;
     margin-top: 5px;
@@ -163,4 +150,8 @@ td small {
     padding: 5px;
     border: 2px solid black;
     border-radius: 5%;
+}
+
+#benchInput {
+    display: none;
 }
