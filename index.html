@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exam Seating Pro</title>
+        <link rel="stylesheet" href="page.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <!-- Add jsPDF library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    </head>
+    
+    <body onload="toggleBenchInput()">
+
+        <h1>ArrangeIT</h1>
+
+     <h2>Creating the Ideal Seating Arrangement for Every Exam</h3>
+    
+        <div id="container">
+            <!-- Left: Form -->
+            <fieldset id="fieldset">
+                <form id="seatingForm">
+                    <div id="form">
+                        Title of Seating Arrangement: <input type="text" id="seatingTitle" placeholder="Class, Exam Name, Year"><br><br>
+                        Number of Students: <input type="number" id="studentCount"><br><br>
+                        Columns: <input type="number" id="columns"><br><br>
+                        Rows: <input type="number" id="rows"><br><br>
+                        Name of Streams: <input type="text" id="streams" placeholder="Separated by comma (,)">
+                        <div id="streamCountsContainer"></div>
+                        <p>Type of seating:</p>
+                        Single seat: <input type="checkbox" id="singleSeat" value="single">
+                        Bench: <input type="checkbox" id="benchSeat" value="bench"><br><br>
+                        <input id="button" type="button" value="GENERATE" onclick="generateSeating()">
+                        <button id="downloadBtn" type="button" onclick="downloadSeating()">Download Seating</button>
+                    </div>
+                </form>
+            </fieldset>
+            
+            <!-- Right: Seating Output (outside fieldset!) -->
+            <div id="output"></div>
+        </div>
+    
+        <script src="script.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+
+    </body>
+</html>
