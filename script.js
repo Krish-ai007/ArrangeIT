@@ -1,7 +1,7 @@
 document.getElementById('streams').addEventListener('input', function () {
     const streams = this.value.split(',').map(s => s.trim()).filter(s => s);
     const container = document.getElementById('streamCountsContainer');
-    container.innerHTML = ''; 
+    container.innerHTML = '';
     streams.forEach((stream, index) => {
         container.innerHTML += `
             <label>${stream} Count:</label>
@@ -13,34 +13,48 @@ document.getElementById('streams').addEventListener('input', function () {
 function toggleSeatType() {
     const isSingleSeat = document.getElementById('singleSeat').checked;
     const isBench = document.getElementById('benchSeat').checked;
-    
+
     if (isSingleSeat) {
         document.getElementById('benchSeat').checked = false;
         document.getElementById('benchInput').style.display = 'none';
     } else if (isBench) {
         document.getElementById('singleSeat').checked = false;
         document.getElementById('benchInput').style.display = 'block';
+    } else {
+        document.getElementById('benchInput').style.display = 'none';
     }
 }
 
 function generateSeating() {
-    const seatingTitle = document.getElementById('seatingTitle').value; 
+    const seatingTitle = document.getElementById('seatingTitle').value.trim();
     const studentCount = parseInt(document.getElementById('studentCount').value);
     const columns = parseInt(document.getElementById('columns').value);
     const rows = parseInt(document.getElementById('rows').value);
+    const isBench = document.getElementById('benchSeat').checked;
     const streamInput = document.getElementById('streams').value;
     const streams = streamInput.split(',').map(s => s.trim()).filter(s => s);
-    const isBench = document.getElementById('benchSeat').checked;
+
     const perBench = isBench ? parseInt(document.getElementById('studentsPerBench').value) : 1;
+
+    if (isBench && (isNaN(perBench) || perBench < 1)) {
+        alert("Please enter a valid number of students per bench.");
+        return;
+    }
+
+    if (!seatingTitle || isNaN(studentCount) || isNaN(columns) || isNaN(rows)) {
+        alert("Please fill all required fields.");
+        return;
+    }
 
     let streamCounts = [];
     let totalStreamStudents = 0;
 
     streams.forEach((stream, index) => {
         const count = parseInt(document.getElementById(`streamCount_${index}`).value);
-        if (isNaN(count)) return;
-        streamCounts.push({ stream, count });
-        totalStreamStudents += count;
+        if (!isNaN(count)) {
+            streamCounts.push({ stream, count });
+            totalStreamStudents += count;
+        }
     });
 
     if (studentCount !== totalStreamStudents) {
@@ -50,11 +64,13 @@ function generateSeating() {
 
     const totalUnits = columns * rows;
     const totalSeatsAvailable = totalUnits * perBench;
+
     if (studentCount > totalSeatsAvailable) {
         alert("Not enough seats for all students.");
         return;
     }
 
+    // Prepare students array
     let students = [];
     streamCounts.forEach(({ stream, count }) => {
         for (let i = 0; i < count; i++) {
@@ -62,10 +78,10 @@ function generateSeating() {
         }
     });
 
-   
+    // Shuffle students randomly
     students.sort(() => 0.5 - Math.random());
 
-    
+    // Initialize seating grid
     let seating = Array.from({ length: rows }, () => Array(columns).fill(null));
     let studentIndex = 0;
 
@@ -81,7 +97,6 @@ function generateSeating() {
                     usedStreams.add(candidate.stream);
                     studentIndex++;
                 } else {
-                   
                     let swapIndex = students.findIndex((s, i) => i > studentIndex && !usedStreams.has(s.stream));
                     if (swapIndex !== -1) {
                         [students[studentIndex], students[swapIndex]] =
@@ -97,7 +112,7 @@ function generateSeating() {
         }
     }
 
-   
+    // Output HTML
     let outputHTML = `<h2>${seatingTitle}</h2><h3>Seating Arrangement</h3><table id="seatingTable">`;
 
     seating.forEach(row => {
@@ -112,27 +127,20 @@ function generateSeating() {
         });
         outputHTML += '</tr>';
     });
-    
-    outputHTML += '</table>';
 
+    outputHTML += '</table>';
     document.getElementById('output').innerHTML = outputHTML;
 }
 
-
 function downloadSeating() {
-    const element = document.getElementById('output'); 
-    
- 
+    const element = document.getElementById('output');
     const options = {
-        margin:       10,
-        filename:     'seating-arrangement.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 4 },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        margin: 10,
+        filename: 'seating-arrangement.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 4 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-   
     html2pdf().from(element).set(options).save();
 }
-
-
